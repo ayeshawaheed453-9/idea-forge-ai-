@@ -1,0 +1,2791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Explore curated project ideas by topic, skill level, and purpose with IdeaForge.">
+<meta name="theme-color" content="#6c63ff">
+
+<title>IdeaForge AI — Curated Project Idea Generator</title>
+
+<style>
+/* =========================================================
+   IDEAFORGE AI
+   Complete Single-File Website
+   HTML + CSS + JavaScript
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+    --primary: #6c63ff;
+    --primary-dark: #5148e8;
+    --secondary: #8b5cf6;
+    --accent: #22d3ee;
+
+    --bg: #f7f8fc;
+    --surface: #ffffff;
+    --surface-2: #f1f3f9;
+
+    --text: #171827;
+    --text-light: #64677a;
+    --border: #e4e6ef;
+
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    --shadow: 0 15px 50px rgba(34, 32, 70, 0.08);
+    --shadow-hover: 0 25px 70px rgba(34, 32, 70, 0.14);
+
+    --radius: 20px;
+    --transition: 0.3s ease;
+}
+
+body.dark {
+    --bg: #0b0c16;
+    --surface: #121420;
+    --surface-2: #1a1d2b;
+
+    --text: #f4f5ff;
+    --text-light: #a8abc0;
+    --border: #292d3e;
+
+    --shadow: 0 15px 50px rgba(0,0,0,.3);
+    --shadow-hover: 0 25px 70px rgba(0,0,0,.45);
+}
+
+/* RESET */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+section[id] {
+    scroll-margin-top: 88px;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background .3s ease, color .3s ease;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.container {
+    width: min(1180px, 92%);
+    margin: auto;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+
+    transition: var(--transition);
+}
+
+body.dark .navbar {
+    background: rgba(11,12,22,.82);
+}
+
+.nav-inner {
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.logo-icon {
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent)
+    );
+
+    box-shadow: 0 10px 25px rgba(108,99,255,.3);
+}
+
+.logo span {
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* NAV LINKS */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.nav-links a {
+    padding: 10px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+
+    color: var(--text-light);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+    background: rgba(108,99,255,.08);
+}
+
+/* NAV ACTIONS */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.theme-btn,
+.menu-btn {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 11px;
+
+    font-size: 18px;
+
+    transition: var(--transition);
+}
+
+.theme-btn:hover,
+.menu-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.menu-btn {
+    display: none;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+    padding-top: 140px;
+    padding-bottom: 90px;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    width: 600px;
+    height: 600px;
+
+    top: -250px;
+    right: -200px;
+
+    background: radial-gradient(
+        circle,
+        rgba(108,99,255,.18),
+        transparent 70%
+    );
+
+    pointer-events: none;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+    width: 500px;
+    height: 500px;
+
+    bottom: -250px;
+    left: -200px;
+
+    background: radial-gradient(
+        circle,
+        rgba(34,211,238,.13),
+        transparent 70%
+    );
+
+    pointer-events: none;
+}
+
+.hero-content {
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 15px;
+
+    border: 1px solid rgba(108,99,255,.25);
+    border-radius: 100px;
+
+    background: rgba(108,99,255,.08);
+
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    margin-bottom: 25px;
+}
+
+.badge-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+
+    box-shadow: 0 0 12px var(--success);
+}
+
+.hero h1 {
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: clamp(44px, 7vw, 78px);
+
+    line-height: 1.02;
+
+    letter-spacing: -3px;
+
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary),
+        var(--accent)
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero p {
+    max-width: 700px;
+    margin: auto;
+
+    color: var(--text-light);
+
+    font-size: 18px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 13px;
+
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 14px 22px;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+    font-size: 14px;
+
+    transition: var(--transition);
+}
+
+.btn-primary {
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    box-shadow: 0 12px 30px rgba(108,99,255,.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 35px rgba(108,99,255,.35);
+}
+
+.btn-outline {
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* HERO STATS */
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    max-width: 650px;
+
+    margin: 65px auto 0;
+
+    padding: 20px;
+
+    background: rgba(255,255,255,.5);
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+
+    backdrop-filter: blur(15px);
+}
+
+body.dark .hero-stats {
+    background: rgba(18,20,32,.5);
+}
+
+.stat {
+    text-align: center;
+    border-right: 1px solid var(--border);
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat strong {
+    display: block;
+
+    font-family: "Space Grotesk";
+
+    font-size: 25px;
+}
+
+.stat span {
+    color: var(--text-light);
+    font-size: 12px;
+}
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+section {
+    padding: 100px 0;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 700px;
+
+    margin: 0 auto 55px;
+}
+
+.section-heading .eyebrow {
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.section-heading h2 {
+    font-family: "Space Grotesk";
+
+    font-size: clamp(30px, 4vw, 46px);
+
+    line-height: 1.1;
+
+    margin: 10px 0 15px;
+}
+
+.section-heading p {
+    color: var(--text-light);
+}
+
+/* =========================================================
+   GENERATOR
+========================================================= */
+
+.generator-section {
+    background: var(--surface);
+}
+
+.generator-wrapper {
+    display: grid;
+    grid-template-columns: 390px 1fr;
+
+    gap: 30px;
+
+    align-items: start;
+}
+
+/* FORM CARD */
+
+.generator-card {
+    padding: 28px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow);
+}
+
+.generator-card h3 {
+    font-family: "Space Grotesk";
+    margin-bottom: 7px;
+}
+
+.generator-card > p {
+    color: var(--text-light);
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.form-control {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    background: var(--surface-2);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(108,99,255,.1);
+}
+
+.generate-btn {
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 15px;
+
+    color: white;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    font-weight: 800;
+
+    transition: var(--transition);
+}
+
+.generate-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* RESULT AREA */
+
+.results-area {
+    min-height: 480px;
+}
+
+.results-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.results-top h3 {
+    font-family: "Space Grotesk";
+}
+
+.results-count {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.project-card {
+    padding: 22px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    transition: var(--transition);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--accent)
+    );
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.project-icon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    background: rgba(108,99,255,.1);
+
+    color: var(--primary);
+
+    border-radius: 13px;
+
+    font-size: 22px;
+
+    margin-bottom: 17px;
+}
+
+.project-card h4 {
+    font-family: "Space Grotesk";
+    font-size: 18px;
+
+    margin-bottom: 9px;
+}
+
+.project-card p {
+    color: var(--text-light);
+
+    font-size: 13px;
+
+    margin-bottom: 17px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    background: var(--surface-2);
+
+    color: var(--text-light);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.empty-state {
+    height: 400px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    border: 1px dashed var(--border);
+
+    border-radius: var(--radius);
+
+    background: var(--surface-2);
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    font-family: "Space Grotesk";
+    margin-bottom: 5px;
+}
+
+.empty-state p {
+    color: var(--text-light);
+    max-width: 400px;
+    font-size: 13px;
+}
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.features-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.feature-card {
+    padding: 27px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    transition: var(--transition);
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--secondary)
+    );
+
+    font-size: 21px;
+
+    margin-bottom: 18px;
+}
+
+.feature-card h3 {
+    font-family: "Space Grotesk";
+    margin-bottom: 9px;
+}
+
+.feature-card p {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
+.steps {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.step {
+    text-align: center;
+
+    padding: 25px 15px;
+}
+
+.step-number {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 17px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: rgba(108,99,255,.1);
+
+    color: var(--primary);
+
+    font-weight: 800;
+
+    border: 1px solid rgba(108,99,255,.2);
+}
+
+.step h3 {
+    font-family: "Space Grotesk";
+    margin-bottom: 8px;
+}
+
+.step p {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+/* =========================================================
+   AUDIENCE
+========================================================= */
+
+.audience-section {
+    background: var(--surface);
+}
+
+.audience-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 16px;
+}
+
+.audience-card {
+    padding: 24px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    text-align: center;
+
+    transition: var(--transition);
+}
+
+.audience-card:hover {
+    border-color: var(--primary);
+
+    transform: translateY(-4px);
+}
+
+.audience-card .emoji {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.audience-card h4 {
+    font-family: "Space Grotesk";
+}
+
+.audience-card p {
+    color: var(--text-light);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta {
+    padding: 70px 20px;
+
+    border-radius: 28px;
+
+    text-align: center;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(34,211,238,.35),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #5148e8,
+            #7c3aed
+        );
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.cta h2 {
+    font-family: "Space Grotesk";
+
+    font-size: clamp(30px, 5vw, 50px);
+
+    margin-bottom: 13px;
+}
+
+.cta p {
+    opacity: .85;
+
+    max-width: 600px;
+
+    margin: auto auto 25px;
+}
+
+.cta .btn {
+    background: white;
+    color: #5148e8;
+    border: 0;
+}
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.faq-item {
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    margin-bottom: 10px;
+
+    overflow: hidden;
+
+    background: var(--surface);
+}
+
+.faq-question {
+    width: 100%;
+
+    padding: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font-weight: 700;
+
+    text-align: left;
+}
+
+.faq-answer {
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition: max-height .35s ease;
+}
+
+.faq-answer p {
+    padding: 0 18px 18px;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-icon {
+    transition: var(--transition);
+
+    font-size: 20px;
+
+    color: var(--primary);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 45px 0 25px;
+
+    background: #0b0c16;
+
+    color: white;
+}
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+
+    gap: 40px;
+
+    padding-bottom: 35px;
+
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.footer-brand p {
+    color: #9da1b7;
+
+    font-size: 13px;
+
+    max-width: 300px;
+
+    margin-top: 15px;
+}
+
+.footer-col h4 {
+    margin-bottom: 15px;
+}
+
+.footer-col a {
+    display: block;
+
+    color: #9da1b7;
+
+    font-size: 13px;
+
+    margin-bottom: 9px;
+
+    transition: var(--transition);
+}
+
+.footer-col a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-top: 22px;
+
+    color: #777c94;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    padding: 15px 18px;
+
+    color: white;
+
+    background: #171827;
+
+    border: 1px solid #33364a;
+
+    border-radius: 12px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+
+    transform: translateY(100px);
+
+    opacity: 0;
+
+    transition: .35s ease;
+
+    z-index: 2000;
+
+    font-size: 13px;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 1080px) {
+
+    .nav-links {
+        position: absolute;
+
+        top: 76px;
+        left: 4%;
+        right: 4%;
+
+        display: none;
+
+        flex-direction: column;
+
+        padding: 12px;
+
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+
+        border-radius: 15px;
+
+        box-shadow: var(--shadow);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu-btn {
+        display: grid;
+    }
+
+    .generator-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .audience-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px) {
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .hero-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+
+        padding: 10px;
+    }
+
+    .stat:last-child {
+        border-bottom: none;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid,
+    .steps,
+    .audience-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+<div class="container nav-inner">
+
+<a href="#home" class="logo">
+
+<div class="logo-icon">
+    ✦
+</div>
+
+Idea<span>Forge</span> AI
+
+</a>
+
+<nav class="nav-links" id="navLinks" aria-label="Main navigation">
+
+<a href="#home">Home</a>
+<a href="#generator">Generator</a>
+<a href="#features">Features</a>
+<a href="#how">How It Works</a>
+<a href="#audience">For Everyone</a>
+<a href="#faq">FAQ</a>
+</nav>
+
+<div class="nav-actions">
+
+<button class="theme-btn" id="themeBtn" type="button" title="Toggle theme" aria-label="Switch to dark theme" aria-pressed="false">
+    ☾
+</button>
+
+<button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation" aria-controls="navLinks" aria-expanded="false">
+    ☰
+</button>
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="hero" id="home">
+
+<div class="container">
+
+<div class="hero-content">
+
+<div class="badge">
+
+<span class="badge-dot"></span>
+
+Curated Project Idea Library
+
+</div>
+
+<h1>
+
+Turn Your
+<span class="gradient-text">
+Ideas Into Innovation
+</span>
+
+</h1>
+
+<p>
+
+Explore 38 curated project starters across 10 topic areas.
+Choose a domain, skill level, technology, and purpose to find
+a practical starting point for your next project.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#generator" class="btn btn-primary">
+    ✨ Generate Ideas
+</a>
+
+<a href="#how" class="btn btn-outline">
+    ▶ How It Works
+</a>
+
+</div>
+
+<div class="hero-stats">
+
+<div class="stat">
+
+<strong>38</strong>
+
+<span>Project Concepts</span>
+
+</div>
+
+<div class="stat">
+
+<strong>10</strong>
+
+<span>Innovation Areas</span>
+
+</div>
+
+<div class="stat">
+
+<strong>3</strong>
+
+<span>Skill Levels</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     GENERATOR
+====================================================== -->
+
+<section class="generator-section" id="generator">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="eyebrow">Idea generator</div>
+
+<h2>
+Generate Your Next Great Project
+</h2>
+
+<p>
+Browse a local catalog of project concepts by domain. Your
+selected skill level, technology, and purpose appear with each idea.
+</p>
+
+</div>
+
+
+<div class="generator-wrapper">
+
+<!-- FORM -->
+
+<div class="generator-card">
+
+<h3>Project Preferences</h3>
+
+<p>
+Tell us what kind of innovation you want to build.
+</p>
+
+
+<div class="form-group">
+
+<label for="domain">Project domain</label>
+
+<select class="form-control" id="domain">
+
+<option value="AI & Machine Learning">
+AI & Machine Learning
+</option>
+
+<option value="Web Development">
+Web Development
+</option>
+
+<option value="Data Science">
+Data Science
+</option>
+
+<option value="Mathematics">
+Mathematics
+</option>
+
+<option value="Education">
+Education
+</option>
+
+<option value="Healthcare">
+Healthcare
+</option>
+
+<option value="FinTech">
+FinTech
+</option>
+
+<option value="Environment">
+Environment
+</option>
+
+<option value="Cybersecurity">
+Cybersecurity
+</option>
+
+<option value="IoT">
+IoT
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="difficulty">Difficulty level</label>
+
+<select class="form-control" id="difficulty">
+
+<option>Beginner</option>
+<option selected>Intermediate</option>
+<option>Advanced</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="technology">Technology</label>
+
+<select class="form-control" id="technology">
+
+<option>Python</option>
+<option>JavaScript</option>
+<option>HTML / CSS / JavaScript</option>
+<option>Flask</option>
+<option>React</option>
+<option>Machine Learning</option>
+<option>Data Analytics</option>
+<option>Any Technology</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="purpose">Project purpose</label>
+
+<select class="form-control" id="purpose">
+
+<option>Academic Project</option>
+<option>Portfolio Project</option>
+<option>Business Idea</option>
+<option>Research Project</option>
+<option>Startup Idea</option>
+<option>Social Impact</option>
+
+</select>
+
+</div>
+
+
+<button class="generate-btn" id="generateBtn" type="button">
+
+Show project ideas
+
+</button>
+
+</div>
+
+
+<!-- RESULTS -->
+
+<div class="results-area">
+
+<div class="results-top">
+
+<h3>Project ideas</h3>
+
+<span class="results-count" id="resultsCount">
+Ready to generate
+</span>
+
+</div>
+
+
+<div id="results" aria-live="polite" aria-atomic="true">
+
+<div class="empty-state">
+
+<div class="empty-icon">
+💡
+</div>
+
+<h3>Your innovation starts here</h3>
+
+<p>
+Choose a topic and click "Show project ideas" to browse
+concepts from the curated local catalog.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FEATURES
+====================================================== -->
+
+<section id="features">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="eyebrow">
+    Powerful Features
+</div>
+
+<h2>
+Everything You Need to Discover Ideas
+</h2>
+
+<p>
+A complete innovation companion designed for
+modern learners and creators.
+</p>
+
+</div>
+
+
+<div class="features-grid">
+
+<div class="feature-card">
+
+<div class="feature-icon">🧠</div>
+
+<h3>Smart Idea Generation</h3>
+
+<p>
+Browse 38 hand-curated project starters grouped by domain.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🎯</div>
+
+<h3>Flexible Project Briefs</h3>
+
+<p>
+Each idea is shown alongside your chosen level, technology,
+and project purpose as a planning prompt.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🚀</div>
+
+<h3>Innovation Focused</h3>
+
+<p>
+Explore practical ideas that encourage
+creativity, problem solving and innovation.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">💻</div>
+
+<h3>Technology Ready</h3>
+
+<p>
+Choose from modern technologies and development
+approaches for your next project.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">📚</div>
+
+<h3>Student Friendly</h3>
+
+<p>
+Perfect for academic assignments, final-year
+projects, portfolios and research.
+</p>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-icon">🌎</div>
+
+<h3>Real-World Thinking</h3>
+
+<p>
+Transform simple concepts into solutions
+for real-world problems.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     HOW IT WORKS
+====================================================== -->
+
+<section id="how">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="eyebrow">
+    Simple Process
+</div>
+
+<h2>
+How IdeaForge AI Works
+</h2>
+
+<p>
+From a simple preference to an exciting project concept
+in just a few steps.
+</p>
+
+</div>
+
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-number">01</div>
+
+<h3>Choose Domain</h3>
+
+<p>
+Select the area you want to explore.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">02</div>
+
+<h3>Set Preferences</h3>
+
+<p>
+Choose technology, difficulty and purpose.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">03</div>
+
+<h3>Generate</h3>
+
+<p>
+Let the IdeaForge engine create concepts.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">04</div>
+
+<h3>Start Building</h3>
+
+<p>
+Select an idea and turn it into reality.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     AUDIENCE
+====================================================== -->
+
+<section class="audience-section" id="audience">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="eyebrow">
+    Built For Everyone
+</div>
+
+<h2>
+Who Can Use IdeaForge AI?
+</h2>
+
+<p>
+Whether you're learning, researching or building a
+business, IdeaForge can help you find your next idea.
+</p>
+
+</div>
+
+
+<div class="audience-grid">
+
+<div class="audience-card">
+
+<div class="emoji">🎓</div>
+
+<h4>Students</h4>
+
+<p>
+Assignments, semester projects and FYP ideas.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">👨‍💻</div>
+
+<h4>Developers</h4>
+
+<p>
+Build portfolio and experimental projects.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">🔬</div>
+
+<h4>Researchers</h4>
+
+<p>
+Explore innovative research directions.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">🚀</div>
+
+<h4>Entrepreneurs</h4>
+
+<p>
+Discover potential startup opportunities.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">🎨</div>
+
+<h4>Creators</h4>
+
+<p>
+Turn creative concepts into digital products.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">🏢</div>
+
+<h4>Businesses</h4>
+
+<p>
+Explore technology-driven solutions.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">👩‍🏫</div>
+
+<h4>Teachers</h4>
+
+<p>
+Create meaningful classroom project ideas.
+</p>
+
+</div>
+
+
+<div class="audience-card">
+
+<div class="emoji">💡</div>
+
+<h4>Innovators</h4>
+
+<p>
+Explore new possibilities and solutions.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     CTA
+====================================================== -->
+
+<section>
+
+<div class="container">
+
+<div class="cta">
+
+<h2>
+Your Next Big Idea Starts Here.
+</h2>
+
+<p>
+Stop wondering what to build.
+Start discovering what you can create.
+</p>
+
+<a href="#generator" class="btn btn-outline">
+    ✨ Start Generating
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FAQ
+====================================================== -->
+
+<section id="faq">
+
+<div class="container">
+
+<div class="section-heading">
+
+<div class="eyebrow">
+    FAQ
+</div>
+
+<h2>
+Frequently Asked Questions
+</h2>
+
+<p>How the local project idea catalog works.</p>
+
+</div>
+
+
+<div class="faq-container">
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+What is IdeaForge AI?
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+<p>IdeaForge is a browser-based project idea catalog. It lets you browse curated concepts by domain and label them with your selected skill level, technology, and purpose.</p>
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Is IdeaForge suitable for students?
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+<p>
+Yes. It can be used to explore ideas for academic projects,
+semester projects, final-year projects and portfolios.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Can I choose my technology?
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+<p>
+Yes. You can select technologies such as Python,
+JavaScript, Flask, React, Machine Learning and more.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Does the generator create real AI predictions?
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+<p>
+No. This page selects from a fixed catalog of ideas using local JavaScript. It does not use an AI model, call an external API, or send your selections to a server.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="faq-item">
+
+<button class="faq-question">
+
+Can I customize this website?
+
+<span class="faq-icon">+</span>
+
+</button>
+
+<div class="faq-answer">
+
+<p>
+Absolutely. You can change the branding, colors, project
+categories, generated ideas, content and functionality.
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div class="footer-brand">
+
+<div class="logo">
+
+<div class="logo-icon">
+    ✦
+</div>
+
+Idea<span>Forge</span> AI
+
+</div>
+
+<p>
+A lightweight project idea catalog for learners and builders.
+</p>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Platform</h4>
+
+<a href="#generator">Idea Generator</a>
+<a href="#features">Features</a>
+<a href="#how">How It Works</a>
+<a href="#audience">Audience</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Resources</h4>
+
+<a href="#faq">FAQ</a>
+<a href="#home">Innovation</a>
+<a href="#generator">Explore Ideas</a>
+
+</div>
+
+
+<div class="footer-col">
+
+<h4>Connect</h4>
+
+<a href="#">LinkedIn</a>
+<a href="#">GitHub</a>
+<a href="#">Instagram</a>
+<a href="#">YouTube</a>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+<span>
+© 2026 IdeaForge AI. All rights reserved.
+</span>
+
+<span>
+Built for ideas. Designed for innovation.
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+
+<!-- TOAST -->
+
+<div class="toast" id="toast">
+    Message
+</div>
+
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+/* =========================================================
+   MOBILE NAVIGATION
+========================================================= */
+
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+
+    const isOpen = navLinks.classList.toggle("active");
+    menuBtn.setAttribute("aria-expanded", String(isOpen));
+    menuBtn.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navLinks.classList.remove("active");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.setAttribute("aria-label", "Open navigation");
+
+    });
+
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && navLinks.classList.contains("active")) {
+        navLinks.classList.remove("active");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.setAttribute("aria-label", "Open navigation");
+        menuBtn.focus();
+    }
+});
+
+/* =========================================================
+   DARK / LIGHT MODE
+========================================================= */
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", () => {
+
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    themeBtn.setAttribute("aria-pressed", String(isDark));
+    themeBtn.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+
+    themeBtn.textContent = isDark ? "☀" : "☾";
+    try {
+        localStorage.setItem("ideaforge-theme", isDark ? "dark" : "light");
+    } catch {
+        showToast("Theme changed for this visit, but browser storage is unavailable.");
+    }
+
+});
+
+
+try {
+    if (localStorage.getItem("ideaforge-theme") === "dark") {
+        document.body.classList.add("dark");
+        themeBtn.textContent = "☀";
+        themeBtn.setAttribute("aria-pressed", "true");
+        themeBtn.setAttribute("aria-label", "Switch to light theme");
+    }
+} catch {
+    // Keep the default light theme when storage is unavailable.
+}
+
+
+/* =========================================================
+   PROJECT IDEA DATABASE
+========================================================= */
+
+const projectDatabase = {
+
+"AI & Machine Learning": [
+
+{
+title:"AI Student Performance Predictor",
+icon:"🎓",
+description:"Build a machine learning system that analyzes academic factors and predicts student performance.",
+tags:["Python","Machine Learning","Education"]
+},
+
+{
+title:"Smart Demand Forecasting System",
+icon:"📊",
+description:"Create a predictive system that forecasts future product demand using historical sales data.",
+tags:["Python","ML","Forecasting"]
+},
+
+{
+title:"AI Resume Analyzer",
+icon:"📄",
+description:"Develop an intelligent system that analyzes resumes and identifies skills, strengths and improvement areas.",
+tags:["NLP","Python","AI"]
+},
+
+{
+title:"Intelligent Customer Churn Predictor",
+icon:"👥",
+description:"Predict which customers may leave a service using behavioral and historical data.",
+tags:["Classification","Python","ML"]
+},
+
+{
+title:"AI Fraud Detection System",
+icon:"🛡️",
+description:"Build a machine learning system that identifies suspicious financial transactions.",
+tags:["Fraud Detection","ML","Python"]
+},
+
+{
+title:"Smart Recommendation Engine",
+icon:"✨",
+description:"Develop a recommendation system that suggests products, content or learning resources.",
+tags:["Recommendation","AI","Python"]
+}
+
+],
+
+"Web Development":[
+
+{
+title:"AI-Powered Study Planner",
+icon:"📚",
+description:"Create a responsive web application that generates personalized study schedules.",
+tags:["HTML","CSS","JavaScript"]
+},
+
+{
+title:"Smart Portfolio Builder",
+icon:"💼",
+description:"Build a platform that helps users automatically generate professional portfolio layouts.",
+tags:["JavaScript","UI/UX","Web"]
+},
+
+{
+title:"Innovation Idea Dashboard",
+icon:"💡",
+description:"Create an interactive dashboard where users can save, categorize and manage project ideas.",
+tags:["Dashboard","JavaScript","Web"]
+},
+
+{
+title:"Online Learning Hub",
+icon:"🎓",
+description:"Develop a modern educational platform for courses, resources and progress tracking.",
+tags:["Web","Education","UI"]
+},
+
+{
+title:"Personal Productivity Manager",
+icon:"⚡",
+description:"Create a web application for tasks, goals, habits and productivity tracking.",
+tags:["JavaScript","Productivity","Web"]
+}
+
+],
+
+"Data Science":[
+
+{
+title:"Retail Sales Analytics Dashboard",
+icon:"📈",
+description:"Analyze retail sales data and visualize trends, products and customer behavior.",
+tags:["Python","Pandas","Analytics"]
+},
+
+{
+title:"Data-Driven Business Intelligence System",
+icon:"🏢",
+description:"Build an analytics platform that transforms business data into actionable insights.",
+tags:["Data Science","Visualization","Python"]
+},
+
+{
+title:"Customer Segmentation System",
+icon:"👥",
+description:"Use clustering techniques to identify meaningful customer groups.",
+tags:["Clustering","Python","Analytics"]
+},
+
+{
+title:"Market Trend Analyzer",
+icon:"📊",
+description:"Analyze historical market data to discover trends and patterns.",
+tags:["Data Science","Statistics","Python"]
+}
+
+],
+
+"Mathematics":[
+
+{
+title:"MathMind Problem Solver",
+icon:"🧮",
+description:"Build an interactive mathematical assistant for algebra, calculus and statistics problems.",
+tags:["Python","Mathematics","AI"]
+},
+
+{
+title:"Visual Calculus Explorer",
+icon:"📐",
+description:"Create an interactive platform for visualizing derivatives, integrals and functions.",
+tags:["Calculus","Visualization","Web"]
+},
+
+{
+title:"Mathematical Formula Assistant",
+icon:"🔢",
+description:"Develop a tool that explains mathematical formulas with examples and visual demonstrations.",
+tags:["Math","Education","AI"]
+},
+
+{
+title:"Statistics Learning Assistant",
+icon:"📊",
+description:"Build an interactive application that teaches statistics through practical examples.",
+tags:["Statistics","Python","Education"]
+}
+
+],
+
+"Education":[
+
+{
+title:"AI Learning Path Generator",
+icon:"🗺️",
+description:"Generate personalized learning paths based on a student's interests and goals.",
+tags:["AI","Education","Personalization"]
+},
+
+{
+title:"Smart Quiz Generator",
+icon:"❓",
+description:"Create an application that generates quizzes from selected topics.",
+tags:["Education","JavaScript","AI"]
+},
+
+{
+title:"Student Attendance Analytics",
+icon:"📋",
+description:"Analyze attendance patterns and identify students who may need support.",
+tags:["Analytics","Education","Python"]
+},
+
+{
+title:"Virtual Study Assistant",
+icon:"🤖",
+description:"Create a digital assistant that helps students organize study activities.",
+tags:["AI","Education","Productivity"]
+}
+
+],
+
+"Healthcare":[
+
+{
+title:"Health Risk Prediction Dashboard",
+icon:"❤️",
+description:"Create an educational analytics platform for exploring health risk factors using sample datasets.",
+tags:["ML","Healthcare","Python"]
+},
+
+{
+title:"Smart Appointment Manager",
+icon:"📅",
+description:"Develop a web system that helps clinics organize appointments efficiently.",
+tags:["Web","Healthcare","JavaScript"]
+},
+
+{
+title:"Healthcare Data Analytics",
+icon:"🏥",
+description:"Analyze healthcare datasets to discover patterns and trends.",
+tags:["Data Science","Python","Analytics"]
+}
+
+],
+
+"FinTech":[
+
+{
+title:"Personal Finance Analyzer",
+icon:"💰",
+description:"Create a dashboard that helps users understand spending and saving patterns.",
+tags:["Finance","Analytics","Web"]
+},
+
+{
+title:"Expense Prediction System",
+icon:"📊",
+description:"Build a model that analyzes historical expenses and estimates future spending.",
+tags:["ML","Finance","Python"]
+},
+
+{
+title:"Financial Fraud Analytics",
+icon:"🛡️",
+description:"Explore transaction datasets and identify unusual financial patterns.",
+tags:["Fraud","Data Science","Python"]
+}
+
+],
+
+"Environment":[
+
+{
+title:"Smart Waste Management",
+icon:"♻️",
+description:"Design a technology-driven system for monitoring and improving waste management.",
+tags:["IoT","Environment","Smart City"]
+},
+
+{
+title:"Air Quality Analytics",
+icon:"🌍",
+description:"Analyze environmental data to visualize air quality trends.",
+tags:["Data Science","Environment","Python"]
+},
+
+{
+title:"Water Consumption Monitor",
+icon:"💧",
+description:"Create a dashboard that helps users understand and reduce water consumption.",
+tags:["IoT","Analytics","Sustainability"]
+}
+
+],
+
+"Cybersecurity":[
+
+{
+title:"Phishing Awareness Trainer",
+icon:"🔐",
+description:"Create an educational platform that teaches users how to recognize phishing attempts.",
+tags:["Cybersecurity","Web","Education"]
+},
+
+{
+title:"Password Security Analyzer",
+icon:"🔑",
+description:"Develop an educational tool that demonstrates principles of password security.",
+tags:["Security","JavaScript","Web"]
+},
+
+{
+title:"Cyber Threat Dashboard",
+icon:"🛡️",
+description:"Build a visualization dashboard for understanding cybersecurity events.",
+tags:["Cybersecurity","Dashboard","Data"]
+}
+
+],
+
+"IoT":[
+
+{
+title:"Smart Home Monitoring System",
+icon:"🏠",
+description:"Design an IoT dashboard for monitoring connected home devices.",
+tags:["IoT","Web","Sensors"]
+},
+
+{
+title:"Smart Agriculture Monitor",
+icon:"🌱",
+description:"Create a system for monitoring agricultural conditions using connected sensors.",
+tags:["IoT","Agriculture","Sensors"]
+},
+
+{
+title:"Smart Energy Management",
+icon:"⚡",
+description:"Develop a system for monitoring energy consumption and identifying saving opportunities.",
+tags:["IoT","Energy","Analytics"]
+}
+
+]
+
+};
+
+
+/* =========================================================
+   GENERATOR
+========================================================= */
+
+const generateBtn = document.getElementById("generateBtn");
+const results = document.getElementById("results");
+const resultsCount = document.getElementById("resultsCount");
+
+generateBtn.addEventListener("click", generateIdeas);
+
+
+function generateIdeas() {
+
+    const domain =
+        document.getElementById("domain").value;
+
+    const difficulty =
+        document.getElementById("difficulty").value;
+
+    const technology =
+        document.getElementById("technology").value;
+
+    const purpose =
+        document.getElementById("purpose").value;
+
+
+    generateBtn.textContent = "Showing ideas...";
+
+    generateBtn.disabled = true;
+    generateBtn.setAttribute("aria-busy", "true");
+
+
+    setTimeout(() => {
+
+        let ideas =
+            projectDatabase[domain] ||
+            projectDatabase["AI & Machine Learning"];
+
+
+        ideas = [...ideas];
+        for (let index = ideas.length - 1; index > 0; index--) {
+            const swapIndex = Math.floor(Math.random() * (index + 1));
+            [ideas[index], ideas[swapIndex]] = [ideas[swapIndex], ideas[index]];
+        }
+        ideas = ideas.slice(0, 4);
+
+
+        results.innerHTML = "";
+
+        const grid =
+            document.createElement("div");
+
+        grid.className = "project-grid";
+
+
+        ideas.forEach(idea => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "project-card";
+
+
+            card.innerHTML = `
+
+                <div class="project-icon">
+                    ${idea.icon}
+                </div>
+
+                <h4>${idea.title}</h4>
+
+                <p>
+                    ${idea.description}
+                </p>
+
+                <div class="tags">
+
+                    <span class="tag">
+                        ${difficulty}
+                    </span>
+
+                    <span class="tag">
+                        ${technology}
+                    </span>
+
+                    <span class="tag">
+                        ${purpose}
+                    </span>
+
+                    ${idea.tags.map(tag =>
+                        `<span class="tag">${tag}</span>`
+                    ).join("")}
+
+                </div>
+
+            `;
+
+
+            grid.appendChild(card);
+
+        });
+
+
+        results.appendChild(grid);
+
+
+        resultsCount.textContent =
+            `${ideas.length} curated ideas`;
+
+
+        generateBtn.textContent = "Show project ideas";
+
+        generateBtn.disabled = false;
+        generateBtn.removeAttribute("aria-busy");
+
+
+        showToast(
+            "Ideas selected from the local catalog."
+        );
+
+    }, 700);
+
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+document.querySelectorAll(".faq-question")
+.forEach(question => {
+
+    question.setAttribute("aria-expanded", "false");
+
+    question.addEventListener("click", () => {
+
+        const item =
+            question.parentElement;
+
+
+        document.querySelectorAll(".faq-item")
+        .forEach(other => {
+
+            if(other !== item) {
+
+                other.classList.remove("active");
+                other.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+
+            }
+
+        });
+
+
+        item.classList.toggle("active");
+        question.setAttribute("aria-expanded", String(item.classList.contains("active")));
+
+    });
+
+});
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+/* =========================================================
+   NAVBAR SCROLL EFFECT
+========================================================= */
+
+window.addEventListener("scroll", () => {
+
+    const navbar =
+        document.querySelector(".navbar");
+
+    if(window.scrollY > 50) {
+
+        navbar.style.boxShadow =
+            "0 10px 35px rgba(0,0,0,.06)";
+
+    } else {
+
+        navbar.style.boxShadow = "none";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
